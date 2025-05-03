@@ -87,6 +87,13 @@ const listContent = [
     iconBg: 'bg-green-500',
   },
   {
+    title: 'Integration View',
+    view: ConfigurableView.INTEGRATION_VIEW,
+    icon: <ChartIcon className="h-6 w-6 text-white" />,
+    customStyles: 'focus:ring-green-600',
+    iconBg: 'bg-green-500',
+  },
+  {
     title: 'Config View',
     view: ConfigurableView.CONFIG_VIEW,
     icon: <SettingsIcon className="h-6 w-6" />,

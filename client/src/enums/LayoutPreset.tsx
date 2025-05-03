@@ -7,6 +7,7 @@ import ConfigurableLayout from '@/components/ConfigurableLayout/ConfigurableLayo
 import OpModeView from '@/components/views/OpModeView';
 import CameraView from '@/components/views/CameraView';
 import GraphView from '@/components/views/GraphView/GraphView';
+import IntegrationView from '@/components/views/IntegrationView/IntegrationView';
 import ConfigView from '@/components/views/ConfigView/ConfigView';
 import TelemetryView from '@/components/views/TelemetryView';
 import FieldView from '@/components/views/FieldView/FieldView';
@@ -15,6 +16,7 @@ const LayoutPreset = {
   DEFAULT: 'DEFAULT',
   FIELD: 'FIELD',
   GRAPH: 'GRAPH',
+  INTEGRATION: 'INTEGRATION',
   ORIGINAL: 'ORIGINAL',
   CONFIGURABLE: 'CONFIGURABLE',
 } as const;
@@ -78,6 +80,16 @@ const LAYOUT_DETAILS: { [key in Values<typeof LayoutPreset>]: Layout } = {
         </Tile>
         <Tile row={1} col={2}>
           <GraphView />
+        </Tile>
+      </TileGrid>
+    ),
+  },
+  [LayoutPreset.INTEGRATION]: {
+    name: 'Integration',
+    content: (
+      <TileGrid gridTemplate="100% / 100%">
+        <Tile row={1} col={1}>
+          <IntegrationView />
         </Tile>
       </TileGrid>
     ),
