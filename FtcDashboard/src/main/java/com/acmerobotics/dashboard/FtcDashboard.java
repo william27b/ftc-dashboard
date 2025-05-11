@@ -18,11 +18,13 @@ import com.acmerobotics.dashboard.config.ValueProvider;
 import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
 import com.acmerobotics.dashboard.config.variable.CustomVariable;
 import com.acmerobotics.dashboard.message.Message;
+import com.acmerobotics.dashboard.message.MessageCache;
 import com.acmerobotics.dashboard.message.redux.InitOpMode;
 import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
 import com.acmerobotics.dashboard.message.redux.ReceiveImage;
 import com.acmerobotics.dashboard.message.redux.ReceiveOpModeList;
 import com.acmerobotics.dashboard.message.redux.ReceiveRobotStatus;
+import com.acmerobotics.dashboard.message.redux.SetMotor;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.ftccommon.FtcEventLoop;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -627,6 +629,10 @@ public class FtcDashboard implements OpModeManagerImpl.Notifications {
                     ReceiveGamepadState castMsg = (ReceiveGamepadState) msg;
                     updateGamepads(castMsg.getGamepad1(), castMsg.getGamepad2());
                     break;
+                }
+                case SET_MOTOR: {
+                    SetMotor setMotor = (SetMotor) msg;
+                    MessageCache.addMessage(setMotor);
                 }
                 default: {
                     Log.w(TAG, "Received unknown message of type " + msg.getType());

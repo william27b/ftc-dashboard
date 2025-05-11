@@ -10,6 +10,10 @@ export type {
   RefreshConfigAction,
 } from './config';
 
+export type {
+  SetMotorAction
+} from './integration'
+
 export {
   GAMEPAD_CONNECTED,
   GAMEPAD_DISCONNECTED,
