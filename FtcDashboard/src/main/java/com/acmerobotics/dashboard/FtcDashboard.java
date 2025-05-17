@@ -633,6 +633,7 @@ public class FtcDashboard implements OpModeManagerImpl.Notifications {
                 case SET_MOTOR: {
                     SetMotor setMotor = (SetMotor) msg;
                     MessageCache.addMessage(setMotor);
+                    break;
                 }
                 default: {
                     Log.w(TAG, "Received unknown message of type " + msg.getType());
