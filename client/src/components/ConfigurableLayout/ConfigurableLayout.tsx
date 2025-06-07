@@ -20,7 +20,8 @@ import GraphView from '@/components/views/GraphView/GraphView';
 import FieldView from '@/components/views/FieldView/FieldView';
 import ConfigView from '@/components/views/ConfigView/ConfigView';
 import TelemetryView from '@/components/views/TelemetryView';
-import IntegrationView from '@/components/views/IntegrationView/IntegrationView';
+
+import DataView from '@/components/views/DataView/DataView';
 import CameraView from '@/components/views/CameraView';
 import OpModeView from '@/components/views/OpModeView';
 import LoggingView from '@/components/views/LoggingView/LoggingView';
@@ -64,7 +65,7 @@ function intervalsIntersect([a, b]: number[], [c, d]: number[]) {
 const VIEW_MAP: { [key in ConfigurableView]: ReactElement } = {
   [ConfigurableView.FIELD_VIEW]: <FieldView />,
   [ConfigurableView.GRAPH_VIEW]: <GraphView />,
-  [ConfigurableView.INTEGRATION_VIEW]: <IntegrationView />,
+  [ConfigurableView.DATA_VIEW]: <DataView />,
   [ConfigurableView.CONFIG_VIEW]: <ConfigView />,
   [ConfigurableView.TELEMETRY_VIEW]: <TelemetryView />,
   [ConfigurableView.CAMERA_VIEW]: <CameraView />,

@@ -5,6 +5,7 @@ import telemetryReducer from './telemetry';
 import socketReducer from './socket';
 import configReducer from './config';
 import integrationReducer from './integration';
+import dataReducer from './data';
 import statusReducer from './status';
 import cameraReducer from './camera';
 import settingsReducer from './settings';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   socket: socketReducer,
   config: configReducer,
   integration: integrationReducer,
+  data: dataReducer,
   status: statusReducer,
   camera: cameraReducer,
   settings: settingsReducer,

@@ -19,11 +19,13 @@ import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
 import com.acmerobotics.dashboard.config.variable.CustomVariable;
 import com.acmerobotics.dashboard.message.Message;
 import com.acmerobotics.dashboard.message.MessageCache;
+import com.acmerobotics.dashboard.message.MessageType;
 import com.acmerobotics.dashboard.message.redux.InitOpMode;
 import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
 import com.acmerobotics.dashboard.message.redux.ReceiveImage;
 import com.acmerobotics.dashboard.message.redux.ReceiveOpModeList;
 import com.acmerobotics.dashboard.message.redux.ReceiveRobotStatus;
+import com.acmerobotics.dashboard.message.redux.SetData;
 import com.acmerobotics.dashboard.message.redux.SetMotor;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.ftccommon.FtcEventLoop;
@@ -580,6 +582,7 @@ public class FtcDashboard implements OpModeManagerImpl.Notifications {
         @Override
         protected void onOpen() {
             sh.onOpen();
+            PestoDashCore.getInstance().addSocket(this);
 
             opModeList.with(l -> {
                 if (l.size() > 0) {
@@ -602,6 +605,10 @@ public class FtcDashboard implements OpModeManagerImpl.Notifications {
         protected void onMessage(NanoWSD.WebSocketFrame message) {
             String payload = message.getTextPayload();
             Message msg = DashboardCore.GSON.fromJson(payload, Message.class);
+            if (msg.getType() != MessageType.GET_ROBOT_STATUS &&
+                msg.getType() != MessageType.RECEIVE_OP_MODE_LIST) {
+                Log.w("Message received ", msg.getType().toString());
+            }
 
             if (sh.onMessage(msg)) {
                 return;
@@ -631,8 +638,19 @@ public class FtcDashboard implements OpModeManagerImpl.Notifications {
                     break;
                 }
                 case SET_MOTOR: {
+                    if (MessageCache.messages == null)
+                        break;
+
                     SetMotor setMotor = (SetMotor) msg;
                     MessageCache.addMessage(setMotor);
+                    break;
+                }
+                case SET_DATA: {
+                    if (MessageCache.messages == null)
+                        break;
+
+                    SetData setData = (SetData) msg;
+                    MessageCache.addMessage(setData);
                     break;
                 }
                 default: {
@@ -1203,7 +1221,7 @@ public class FtcDashboard implements OpModeManagerImpl.Notifications {
         } else {
             return activeOpMode.with(o -> {
                 double batteryVoltage = -1.0;
-                if (o.opMode.hardwareMap != null) {
+                if (o.opMode != null && o.opMode.hardwareMap != null) {
                     for (LynxModule m : o.opMode.hardwareMap.getAll(LynxModule.class)) {
                         batteryVoltage =
                             Math.max(batteryVoltage, m.getInputVoltage(VoltageUnit.VOLTS));

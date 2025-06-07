@@ -8,6 +8,7 @@ import OpModeView from '@/components/views/OpModeView';
 import CameraView from '@/components/views/CameraView';
 import GraphView from '@/components/views/GraphView/GraphView';
 import IntegrationView from '@/components/views/IntegrationView/IntegrationView';
+import DataView from '@/components/views/DataView/DataView';
 import ConfigView from '@/components/views/ConfigView/ConfigView';
 import TelemetryView from '@/components/views/TelemetryView';
 import FieldView from '@/components/views/FieldView/FieldView';
@@ -17,6 +18,7 @@ const LayoutPreset = {
   FIELD: 'FIELD',
   GRAPH: 'GRAPH',
   INTEGRATION: 'INTEGRATION',
+  DATA: 'DATA',
   ORIGINAL: 'ORIGINAL',
   CONFIGURABLE: 'CONFIGURABLE',
 } as const;
@@ -90,6 +92,16 @@ const LAYOUT_DETAILS: { [key in Values<typeof LayoutPreset>]: Layout } = {
       <TileGrid gridTemplate="100% / 100%">
         <Tile row={1} col={1}>
           <IntegrationView />
+        </Tile>
+      </TileGrid>
+    ),
+  },
+  [LayoutPreset.DATA]: {
+    name: 'Data',
+    content: (
+      <TileGrid gridTemplate="100% / 100%">
+        <Tile row={1} col={1}>
+          <DataView />
         </Tile>
       </TileGrid>
     ),

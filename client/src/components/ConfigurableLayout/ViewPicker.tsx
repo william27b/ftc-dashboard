@@ -6,6 +6,7 @@ import { ConfigurableView } from '@/enums/ConfigurableView';
 import { ReactComponent as CameraIcon } from '@/assets/icons/camera.svg';
 import { ReactComponent as SettingsIcon } from '@/assets/icons/settings.svg';
 import { ReactComponent as ChartIcon } from '@/assets/icons/chart.svg';
+import { ReactComponent as DataIcon } from '@/assets/icons/data.svg';
 import { ReactComponent as ApiIcon } from '@/assets/icons/api.svg';
 import { ReactComponent as SubjectIcon } from '@/assets/icons/subject.svg';
 import { ReactComponent as WidgetIcon } from '@/assets/icons/widgets.svg';
@@ -87,11 +88,11 @@ const listContent = [
     iconBg: 'bg-green-500',
   },
   {
-    title: 'Integration View',
-    view: ConfigurableView.INTEGRATION_VIEW,
-    icon: <ChartIcon className="h-6 w-6 text-white" />,
+    title: 'Data View',
+    view: ConfigurableView.DATA_VIEW,
+    icon: <DataIcon className="h-6 w-6 text-white" />,
     customStyles: 'focus:ring-green-600',
-    iconBg: 'bg-green-500',
+    iconBg: 'bg-cyan-500',
   },
   {
     title: 'Config View',

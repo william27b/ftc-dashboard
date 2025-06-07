@@ -12,6 +12,11 @@ import {
   RECEIVE_ROBOT_STATUS,
   START_OP_MODE,
   STOP_OP_MODE,
+
+  SET_MOTOR,
+  SET_CONTROL,
+  SET_DATA,
+  RECEIVE_DATA
 } from '@/store/types';
 
 let socket: WebSocket;
@@ -58,11 +63,26 @@ const socketMiddleware: Middleware<Record<string, unknown>, RootState> =
 
         break;
       }
+
+      case RECEIVE_DATA: {
+        store.getState().data = action.data;
+
+        next(action);
+
+        break;
+      }
+
       // messages forwarded to the server
       case RECEIVE_GAMEPAD_STATE:
       case GET_ROBOT_STATUS:
       case 'SAVE_CONFIG':
       case 'GET_CONFIG':
+
+      case SET_MOTOR:
+      case SET_CONTROL:
+
+      case SET_DATA:
+
       case INIT_OP_MODE:
       case START_OP_MODE:
       case STOP_OP_MODE: {
@@ -80,5 +100,5 @@ const socketMiddleware: Middleware<Record<string, unknown>, RootState> =
         break;
     }
   };
-
 export default socketMiddleware;
+

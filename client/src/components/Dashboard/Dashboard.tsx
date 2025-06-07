@@ -2,21 +2,37 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import LayoutPreset, { LayoutPresetType } from '@/enums/LayoutPreset';
+import { IntegrationPreset } from '@/enums/IntegrationType';
+
 import { saveLayoutPreset, getLayoutPreset } from '@/store/actions/settings';
+import {
+  saveIntegrationPreset,
+  getIntegrationPreset,
+} from '@/store/actions/settings';
+
 import { RootState } from '@/store/reducers';
 
 import { BaseViewIconButton } from '@/components/views/BaseView';
 import { ReactComponent as ConnectedIcon } from '@/assets/icons/connected.svg';
 import { ReactComponent as DisconnectedIcon } from '@/assets/icons/disconnected.svg';
+import { ReactComponent as ConfigureIcon } from '@/assets/icons/configure.svg';
 import { ReactComponent as SettingsIcon } from '@/assets/icons/settings.svg';
 import SettingsModal from './SettingsModal';
+import ConfigModal from './ConfigModal';
 import { startSocketWatcher } from '@/store/middleware/socketMiddleware';
+import { Values } from '@/typeHelpers';
 
 export default function Dashboard() {
   const socket = useSelector((state: RootState) => state.socket);
+
   const layoutPreset = useSelector(
     (state: RootState) => state.settings.layoutPreset,
   );
+
+  const integrationPreset = useSelector(
+    (state: RootState) => state.settings.integrationPreset,
+  );
+
   const enabled = useSelector((state: RootState) => state.status.enabled);
   const batteryVoltage = useSelector(
     (state: RootState) => state.status.batteryVoltage,
@@ -24,9 +40,11 @@ export default function Dashboard() {
   const dispatch = useDispatch();
 
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getLayoutPreset());
+    dispatch(getIntegrationPreset());
 
     startSocketWatcher(dispatch);
   }, [dispatch]);
@@ -38,13 +56,15 @@ export default function Dashboard() {
     >
       <header className="flex items-center justify-between bg-primary-600 px-3 py-1 text-white">
         <h1 className="text-2xl font-medium">FTC Dashboard</h1>
+
         <div className="flex-center">
           <select
             className="mx-2 rounded border-primary-300 bg-primary-100 py-1 text-sm text-black focus:border-primary-100 focus:ring-2 focus:ring-white focus:ring-opacity-40"
+            id="selector"
             value={layoutPreset as LayoutPresetType}
-            onChange={(evt) =>
-              dispatch(saveLayoutPreset(evt.target.value as LayoutPresetType))
-            }
+            onChange={(evt) => {
+              dispatch(saveLayoutPreset(evt.target.value as LayoutPresetType));
+            }}
           >
             {Object.keys(LayoutPreset)
               .filter(
@@ -83,6 +103,41 @@ export default function Dashboard() {
           </BaseViewIconButton>
         </div>
       </header>
+      {layoutPreset == 'INTEGRATION' ? (
+        <header className="flex items-center justify-between bg-primary-600 px-3 py-1 text-white">
+          <h1 className="text-2xl font-medium">Integration</h1>
+          <div className="flex-center">
+            <select
+              className="mx-2 rounded border-primary-300 bg-primary-100 py-1 text-sm text-black focus:border-primary-100 focus:ring-2 focus:ring-white focus:ring-opacity-40"
+              id="selector"
+              defaultValue={integrationPreset}
+              onChange={(evt) => {
+                dispatch(
+                  saveIntegrationPreset(
+                    evt.target.value as Values<typeof IntegrationPreset>,
+                  ),
+                );
+              }}
+            >
+              {Object.keys(IntegrationPreset).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+
+            <BaseViewIconButton
+              title="Configure"
+              className="icon-btn group ml-3 h-8 w-8 hover:border-white/50"
+              onClick={() => setIsConfigModalOpen(true)}
+            >
+              <ConfigureIcon className="h-7 w-7 transition duration-300 group-hover:rotate-[45deg]" />
+            </BaseViewIconButton>
+          </div>
+        </header>
+      ) : (
+        <></>
+      )}
       {socket.isConnected && !enabled ? (
         <div
           style={{
@@ -109,6 +164,10 @@ export default function Dashboard() {
       <SettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
+      />
+      <ConfigModal
+        isOpen={isConfigModalOpen}
+        onClose={() => setIsConfigModalOpen(false)}
       />
       {/* Insert a headless-ui portal so the .set-theme-x styles apply to the headless ui dialogs. */}
       {/* They are rendered as siblings to the root by default, outside of our scope */}

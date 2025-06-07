@@ -4,12 +4,15 @@ import com.acmerobotics.dashboard.message.redux.GetConfig;
 import com.acmerobotics.dashboard.message.redux.GetRobotStatus;
 import com.acmerobotics.dashboard.message.redux.InitOpMode;
 import com.acmerobotics.dashboard.message.redux.ReceiveConfig;
+import com.acmerobotics.dashboard.message.redux.ReceiveData;
 import com.acmerobotics.dashboard.message.redux.ReceiveGamepadState;
 import com.acmerobotics.dashboard.message.redux.ReceiveImage;
 import com.acmerobotics.dashboard.message.redux.ReceiveOpModeList;
 import com.acmerobotics.dashboard.message.redux.ReceiveRobotStatus;
 import com.acmerobotics.dashboard.message.redux.ReceiveTelemetry;
 import com.acmerobotics.dashboard.message.redux.SaveConfig;
+import com.acmerobotics.dashboard.message.redux.SetControl;
+import com.acmerobotics.dashboard.message.redux.SetData;
 import com.acmerobotics.dashboard.message.redux.SetMotor;
 import com.acmerobotics.dashboard.message.redux.StartOpMode;
 import com.acmerobotics.dashboard.message.redux.StopOpMode;
@@ -42,7 +45,12 @@ public enum MessageType {
     /* gamepad */
     RECEIVE_GAMEPAD_STATE(ReceiveGamepadState.class),
 
-    SET_MOTOR(SetMotor.class);
+    /* integration testing */
+    SET_MOTOR(SetMotor.class),
+    SET_CONTROL(SetControl.class),
+
+    SET_DATA(SetData.class),
+    RECEIVE_DATA(ReceiveData.class);
 
     final Class<? extends Message> msgClass;
 

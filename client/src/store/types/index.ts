@@ -10,9 +10,30 @@ export type {
   RefreshConfigAction,
 } from './config';
 
-export type {
-  SetMotorAction
+export {
+  SET_MOTOR,
+  SET_CONTROL
 } from './integration'
+export type {
+  IntegrationState,
+
+  SetMotorAction,
+  MotorStates,
+  
+  SetControlAction,
+  ControlState,
+} from './integration'
+
+export {
+  SET_DATA,
+  RECEIVE_DATA
+} from './data'
+export type {
+  DataState,
+
+  SetDataAction,  
+  ReceiveDataAction,
+} from './data'
 
 export {
   GAMEPAD_CONNECTED,
@@ -43,12 +64,20 @@ export {
   SAVE_LAYOUT_PRESET,
   RECEIVE_LAYOUT_PRESET,
   GET_LAYOUT_PRESET,
+
+  SAVE_INTEGRATION_PRESET,
+  RECEIVE_INTEGRATION_PRESET,
+  GET_INTEGRATION_PRESET,
 } from './settings';
 export type {
   SettingState,
   SaveLayoutPresetAction,
   ReceiveLayoutPresetAction,
   GetLayoutPresetAction,
+
+  SaveIntegrationPreset,
+  RecieveIntegrationPreset,
+  GetIntegrationPreset
 } from './settings';
 
 export {

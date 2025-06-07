@@ -1,7 +1,7 @@
 export enum ConfigurableView {
   FIELD_VIEW,
   GRAPH_VIEW,
-  INTEGRATION_VIEW,
+  DATA_VIEW,
   CONFIG_VIEW,
   TELEMETRY_VIEW,
   CAMERA_VIEW,

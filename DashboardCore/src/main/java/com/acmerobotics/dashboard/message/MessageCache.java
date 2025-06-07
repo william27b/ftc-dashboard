@@ -2,23 +2,37 @@ package com.acmerobotics.dashboard.message;
 
 import com.acmerobotics.dashboard.message.redux.CachableMessage;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 
 public class MessageCache {
     public static ArrayList<CachableMessage> messages;
-    private static int cacheSize = 4;
+    private static int cacheSize = 10;
 
     public static void initialize() {
         messages = new ArrayList<>();
     }
 
     public static void setCacheSize(int cacheSize) {
+        assert cacheSize >= 0;
         MessageCache.cacheSize = cacheSize;
     }
 
-    public static void addMessage(CachableMessage message) {
+    public static synchronized int getSize() {
+        return messages.size();
+    }
+
+    public static synchronized CachableMessage getElement(int index) {
+        return messages.get(index);
+    }
+
+    public static synchronized CachableMessage removeElement(int index) {
+        return messages.remove(index);
+    }
+
+    public static synchronized void addMessage(CachableMessage message) {
+        if (messages == null)
+            MessageCache.initialize();
+
         int i = 0;
         int n = messages.size();
 
@@ -34,7 +48,7 @@ public class MessageCache {
 
         messages.add(message);
 
-        if (messages.size() > cacheSize) {
+        while (messages.size() > cacheSize) {
             messages.remove(0);
         }
     }
