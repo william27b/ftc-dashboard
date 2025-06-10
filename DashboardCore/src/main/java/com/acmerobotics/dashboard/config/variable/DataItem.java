@@ -6,6 +6,7 @@ public class DataItem {
     public enum MessageType {
         NUMERICAL ("numerical"),
         NUMERICAL_SELECTION("numerical_selection"),
+        NUMERICAL_RANGE("numerical_range"),
         QUALITATIVE ("qualitative"),
         QUALITATIVE_SELECTION("qualitative_selection");
 
