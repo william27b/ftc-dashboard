@@ -9,6 +9,7 @@ plugins {
 apply plugin: "com.android.library"
 apply plugin: "maven-publish"
 apply plugin: "checkstyle"
+apply plugin: "signing"
 
 android {
     compileSdkVersion 28
@@ -97,7 +98,7 @@ repositories {
 // Keep them in sync manually
 dependencies {
     api(project(":DashboardCore")) {
-        transitive = false
+        transitive = true
     }
 
     api "org.firstinspires.ftc:RobotCore:$min_sdk_version"
@@ -124,7 +125,7 @@ def addPomDependencies(root) {
         return n
     }
 
-    addDep("com.acmerobotics.dashboard", "core", dashboard_version)
+//    addDep("com.acmerobotics.dashboard", "core", dashboard_version)
 
     ["RobotCore", "Hardware", "RobotServer", "FtcCommon"].forEach {
         addDep("org.firstinspires.ftc", it, min_sdk_version)
@@ -166,11 +167,16 @@ project.afterEvaluate {
                 artifact androidSourcesJar
                 artifact androidJavadocsJar
 
-                groupId = "com.acmerobotics.dashboard"
+                groupId = "io.github.william27b"
                 artifactId = "dashboard"
                 version dashboard_version
 
                 pom {
+                    signing {
+                        sign publishing.publications.maven
+                        sign configurations.archives
+                    }
+
                     description = "Web dashboard designed for FTC"
                     name = "FTC Dashboard"
                     url = "https://github.com/acmerobotics/ftc-dashboard"

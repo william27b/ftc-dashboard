@@ -95,6 +95,7 @@ function DataView(props: BaseViewProps & BaseViewHeadingProps) {
                     (line.color ? Colors[line.color] + ' ' : '') +
                     'rounded bg-gray-200 dark:bg-slate-800'
                   }
+                  id={line.id.toString()}
                   defaultValue={String(line.value)}
                   style={{
                     fontWeight: 'normal',
@@ -117,6 +118,7 @@ function DataView(props: BaseViewProps & BaseViewHeadingProps) {
                   style={{
                     fontWeight: 'normal',
                   }}
+                  id={line.id.toString()}
                   onChange={(e) => {
                     line.value = e.target.value;
                     dispatch({
@@ -132,10 +134,11 @@ function DataView(props: BaseViewProps & BaseViewHeadingProps) {
                   ))}
                 </select>
               )
-            ) : (
+            ) : line.type == 'NUMERICAL_SELECTION' ? (
               <div className="flex">
                 <input
                   type="number"
+                  id={line.id.toString()}
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                   defaultValue={line.value.toString()}
                   onChange={(e) => {
@@ -167,6 +170,53 @@ function DataView(props: BaseViewProps & BaseViewHeadingProps) {
                   }}
                 >
                   {line.unit}
+                </h2>
+              </div>
+            ) : (
+              <div className="flex">
+                <input
+                  type="range"
+                  id={line.id.toString()}
+                  defaultValue={(
+                    Number(line.value) - Number(line.min)
+                  ).toString()}
+                  onChange={(e) => {
+                    let value = Number(e.target.value) / 100;
+
+                    value =
+                      value * (Number(line.max) - Number(line.min)) +
+                      Number(line.min);
+
+                    line.value = value;
+                    console.log(value);
+
+                    dispatch({
+                      type: 'SET_DATA',
+                      data: data,
+                    });
+
+                    let h2 = document.getElementById(line.id.toString() + 'h2');
+
+                    if (!h2 || !(h2 as HTMLElement)) return;
+
+                    (h2 as HTMLElement).textContent =
+                      (Math.round(Number(line.value) * 100) / 100).toString() +
+                      ' ' +
+                      (line.unit ? line.unit : '');
+                  }}
+                />
+                <h2
+                  className={line.color ? Colors[line.color] : ''}
+                  id={line.id.toString() + 'h2'}
+                  style={{
+                    fontSize: '1.5em',
+                    fontWeight: 'normal',
+                    marginLeft: '10px',
+                  }}
+                >
+                  {(Math.round(Number(line.value) * 100) / 100).toString() +
+                    ' ' +
+                    (line.unit ? line.unit : '')}
                 </h2>
               </div>
             )}

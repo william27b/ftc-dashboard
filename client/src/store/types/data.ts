@@ -41,6 +41,20 @@ type NumericalSelection = {
     max: Number | undefined,
 }
 
+type NumericalRange = {
+    type: 'NUMERICAL_RANGE',
+    color: 'POSITIVE' | 'NEGATIVE' | 'INFO' | 'NEUTRAL' | undefined,
+
+    id: String,
+
+    caption: String,
+    value: Number,
+    unit: String | undefined,
+
+    min: Number,
+    max: Number,
+}
+
 type QualitativeSelection = {
     type: 'QUALITATIVE_SELECTION',
     color: 'POSITIVE' | 'NEGATIVE' | 'INFO' | 'NEUTRAL' | undefined,
@@ -57,6 +71,7 @@ export type DataItem =
     Numerical |
     Qualitative |
     NumericalSelection |
+    NumericalRange |
     QualitativeSelection;
 
 
